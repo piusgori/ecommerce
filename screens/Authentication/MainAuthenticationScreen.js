@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import Button from '../../components/ui/Button';
 import { styling } from '../../constants/styles';
 
-const MainAuthenticationScreen = () => {
+const MainAuthenticationScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -13,8 +13,8 @@ const MainAuthenticationScreen = () => {
         <Text style={styles.text}>Create an account with us or login to an existing one to be a part of our esteemed onine customer</Text>
       </View>
       <View style={styles.bottomContainer}>
-        <Button style={styles.button}>Login</Button>
-        <Button style={[styles.button, {backgroundColor: 'white'}]} textColor={{color: styling.color.primary400}}>Sign Up</Button>
+        <Button style={styles.button} onPress={() => {navigation.navigate('Login')}}>Login</Button>
+        <Button style={[styles.button, {backgroundColor: 'white'}]} textColor={{color: styling.color.primary400}} onPress={() => {navigation.navigate('Signup')}}>Sign Up</Button>
       </View>
     </View>
   )
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 24,
         paddingVertical: 36,
+        flex: 1,
     },
     text: {
         margin: 12,

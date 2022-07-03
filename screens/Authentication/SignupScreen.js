@@ -5,7 +5,7 @@ import Input from '../../components/ui/Input';
 import { TextInput } from 'react-native-paper'
 import Button from '../../components/ui/Button';
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -18,9 +18,10 @@ const SignupScreen = () => {
       <Text style={styles.title}>Sign Up</Text>
       <View style={styles.inputContainer}>
         <Input autoCapitalize='words' autoComplete='name' autoCorrect={false} keyboardType='default' placeholder='Name' type='name'></Input>
+        <Input autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='Phone Number' type='phone'></Input>
         <Input autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
         <Input autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
-        <Text style={styles.text}>Already have an account?</Text>
+        <Text onPress={() => { navigation.navigate('Login')}} style={styles.text}>Already have an account?</Text>
       </View>
       <View style={styles.buttonContainer}>
         <Button style={styles.button}>Create Account</Button>
