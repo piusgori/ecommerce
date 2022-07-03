@@ -9,6 +9,7 @@ export const styling = {
         primary800: '#200364',
         accent500: '#f7bc0c',
         error50: '#fcc4e4',
+        error100: '#f51439',
         error500: '#9b095c',
         gray500: '#39324a',
         gray700: '#221c30',
@@ -16,6 +17,7 @@ export const styling = {
 	    white100: 'white'
     },
     fontSize: {
+        largeTitle: 36,
         title: 24,
         mediumTitle: 20,
         smallTitle: 16,

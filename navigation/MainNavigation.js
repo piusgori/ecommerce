@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import LoginScreen from '../screens/LoginScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthenticationNavigation from './AuthenticationNavigation';
 
 const MainNavigation = () => {
 
@@ -16,7 +16,7 @@ const MainNavigation = () => {
     // }, [])
 
     return (
-        <LoginScreen></LoginScreen>
+        <AuthenticationNavigation></AuthenticationNavigation>
     )
 }
 
