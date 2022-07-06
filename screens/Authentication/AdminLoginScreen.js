@@ -7,22 +7,16 @@ import Button from '../../components/ui/Button';
 import { AuthContext } from '../../services/authentication-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignupScreen = ({ navigation }) => {
+const AdminLoginScreen = ({ navigation }) => {
 
-  const { isLoading, setIsLoading, setUser, signup } = useContext(AuthContext);
+  const { setIsLoading, isLoading, adminLogin, setAdmin } = useContext(AuthContext);
 
   const [isVisible, setIsVisible] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isNameValid, setIsNameValid] = useState(true);
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(true)
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
   const [emailErrors, setEmailErrors] = useState();
   const [passwordErrors, setPasswordErrors] = useState();
-  const [nameErrors, setNameErrors] = useState();
-  const [phoneNumberErrors, setPhoneNumberErrors] = useState();
-  const [nameInput, setNameInput] = useState('');
-  const [phoneNumberInput, setPhoneNumberInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
 
@@ -32,14 +26,6 @@ const SignupScreen = ({ navigation }) => {
 
   const passwordChangingHandler = (typedPassword) => {
     setPasswordInput(typedPassword);
-  }
-
-  const nameChangingHandler = (typedName) => {
-    setNameInput(typedName);
-  }
-
-  const phoneNumberChangingHandler = (typedPhoneNumber) => {
-    setPhoneNumberInput(typedPhoneNumber);
   }
 
   const checkEmailIsValid = () => {
@@ -62,30 +48,10 @@ const SignupScreen = ({ navigation }) => {
     }
   }
 
-  const checkNameIsValid = () => {
-    if(nameInput.trim().length < 3){
-      setIsNameValid(false);
-      setNameErrors('Please enter a valid name of at least 3 characters');
-    } else {
-      setIsNameValid(true);
-      setNameErrors(null);
-    }
-  }
-
-  const checkPhoneNumberIsValid = () => {
-    if(phoneNumberInput.trim().length !== 10 ){
-      setIsPhoneNumberValid(false);
-      setPhoneNumberErrors('Please enter a valid phone number');
-    } else {
-      setIsPhoneNumberValid(true);
-      setPhoneNumberErrors(null)
-    }
-  }
-
-  const signupHandler = async () => {
+  const loginHandler = async () => {
     setIsLoading(true);
     try {
-      const data = await signup(nameInput, emailInput, phoneNumberInput, passwordInput);
+      const data = await adminLogin(emailInput, passwordInput);
       if(data.content){
         for(const i of data.content){
           if(i.type === 'email'){
@@ -94,17 +60,11 @@ const SignupScreen = ({ navigation }) => {
           } else if(i.type === 'password'){
             setPasswordErrors(i.message);
             setIsPasswordValid(false);
-          } else if(i.type === 'name'){
-            setNameErrors(i.message);
-            setIsNameValid(false);
-          } else if(i.type === 'phoneNumber'){
-            setPhoneNumberErrors(i.message);
-            setIsPhoneNumberValid(false);
           }
         }
       } else {
-        setUser({id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name, cart: data.cart, orders: data.orders});
-        await AsyncStorage.setItem('user', JSON.stringify({id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name, cart: data.cart, orders: data.orders, sessionExpiry: (new Date().getTime() + (1000 * 60 * 60))}));
+        setAdmin({id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name });
+        await AsyncStorage.setItem('admin', JSON.stringify({id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name }));
       }
     } catch (err) {
       console.log(err);
@@ -120,28 +80,25 @@ const SignupScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>Log In As Admin</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkNameIsValid} onInputChange={nameChangingHandler} errors={nameErrors} inputIsValid={isNameValid} autoCapitalize='words' autoComplete='name' autoCorrect={false} keyboardType='default' placeholder='Name' type='name'></Input>
-        <Input onCheckValidity={checkPhoneNumberIsValid} onInputChange={phoneNumberChangingHandler} errors={phoneNumberErrors} inputIsValid={isPhoneNumberValid} autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='Phone Number' type='phone'></Input>
         <Input onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
         <Input onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
-        <Text onPress={() => { navigation.navigate('Login')}} style={styles.text}>Already have an account?</Text>
       </View>
       <View style={styles.buttonContainer}>
-        {!isLoading && <Button onPress={signupHandler} style={styles.button}>Create Account</Button>}
+        {!isLoading && <Button onPress={loginHandler} style={styles.button}>Log In</Button>}
         {isLoading && <ActivityIndicator></ActivityIndicator>}
-        {/* <Text style={styles.orText}>OR</Text>
-        <TouchableOpacity style={styles.googleAuthentication}>
+        {/* <Text style={styles.orText}>OR</Text> */}
+        {/* <TouchableOpacity style={styles.googleAuthentication}>
           <Image style={styles.image} source={require('../../assets/google.png')}></Image>
-          <Text style={styles.loginText}>Sign Up with google</Text>
+          <Text style={styles.loginText}>Login with google</Text>
         </TouchableOpacity> */}
       </View>
     </View>
   )
 }
 
-export default SignupScreen;
+export default AdminLoginScreen;
 
 const styles = StyleSheet.create({
   button: {

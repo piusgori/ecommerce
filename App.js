@@ -6,6 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import MainNavigation from './navigation/MainNavigation';
 import WelcomeScreen from './screens/WelcomeScreen';
+import { AuthContextProvider } from './services/authentication-context';
 
 const Loading = () => {
   return (
@@ -50,10 +51,11 @@ export default function App() {
     return null;
   }
 
-
   return (
     <View style={styles.container}>
-      {loading ? <Loading></Loading> : viewedOnBoarding ? <MainNavigation></MainNavigation> : <WelcomeScreen onViewed={changeViewsHandler}></WelcomeScreen>}
+      <AuthContextProvider>
+        {loading ? <Loading></Loading> : viewedOnBoarding ? <MainNavigation></MainNavigation> : <WelcomeScreen onViewed={changeViewsHandler}></WelcomeScreen>}
+      </AuthContextProvider>
       <StatusBar style="auto" />
     </View>
   );

@@ -5,37 +5,19 @@ import Input from '../../components/ui/Input';
 import { ActivityIndicator, TextInput } from 'react-native-paper'
 import Button from '../../components/ui/Button';
 import { AuthContext } from '../../services/authentication-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = ({ navigation }) => {
+const CreateNewPasswordScreen = ({ navigation }) => {
 
-  const { setIsLoading, isLoading, login, setUser } = useContext(AuthContext);
+  const { setIsLoading, isLoading, setNewPasswordHandler } = useContext(AuthContext);
 
   const [isVisible, setIsVisible] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [emailErrors, setEmailErrors] = useState();
   const [passwordErrors, setPasswordErrors] = useState();
-  const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
-
-  const emailChangingHandler = (typedEmail) => {
-    setEmailInput(typedEmail);
-  }
 
   const passwordChangingHandler = (typedPassword) => {
     setPasswordInput(typedPassword);
-  }
-
-  const checkEmailIsValid = () => {
-    if(!emailInput.includes('@')){
-      setIsEmailValid(false);
-      setEmailErrors('Please enter a valid Email address');
-    } else {
-      setIsEmailValid(true);
-      setEmailErrors(null);
-    }
   }
 
   const checkPasswordlIsValid = () => {
@@ -48,23 +30,19 @@ const LoginScreen = ({ navigation }) => {
     }
   }
 
-  const loginHandler = async () => {
+  const newPasswordHandler = async () => {
     setIsLoading(true);
     try {
-      const data = await login(emailInput, passwordInput);
+      const data = await setNewPasswordHandler(passwordInput);
       if(data.content){
         for(const i of data.content){
-          if(i.type === 'email'){
-            setEmailErrors(i.message);
-            setIsEmailValid(false);
-          } else if(i.type === 'password'){
+          if(i.type === 'password'){
             setPasswordErrors(i.message);
             setIsPasswordValid(false);
           }
         }
       } else {
-        setUser({ id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name, cart: data.cart, orders: data.orders });
-        await AsyncStorage.setItem('user', JSON.stringify({id: data.id, email: data.email, phoneNumber: data.phoneNumber, token: data.token, name: data.name, cart: data.cart, orders: data.orders, sessionExpiry: (new Date().getTime() + (1000 * 60 * 60)) }));
+        navigation.navigate('Login');
       }
     } catch (err) {
       console.log(err);
@@ -80,14 +58,12 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Log In</Text>
+      <Text style={styles.title}>Create New Password</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
         <Input onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
-        <Text onLongPress={() => {navigation.navigate('AdminLogin')}} onPress={() => {navigation.navigate('RequestResetPasswordScreen')}} style={styles.text}>Forgot password?</Text>
       </View>
       <View style={styles.buttonContainer}>
-        {!isLoading && <Button onPress={loginHandler} style={styles.button}>Log In</Button>}
+        {!isLoading && <Button onPress={newPasswordHandler} style={styles.button}>Set New Password</Button>}
         {isLoading && <ActivityIndicator></ActivityIndicator>}
         {/* <Text style={styles.orText}>OR</Text> */}
         {/* <TouchableOpacity style={styles.googleAuthentication}>
@@ -99,7 +75,7 @@ const LoginScreen = ({ navigation }) => {
   )
 }
 
-export default LoginScreen;
+export default CreateNewPasswordScreen;
 
 const styles = StyleSheet.create({
   button: {

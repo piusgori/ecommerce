@@ -2,29 +2,22 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { styling } from '../../constants/styles';
-import { validation } from '../../utils/form-validation';
 
-const Input = ({ placeholder, autoCapitalize, autoComplete, autoCorrect=false, keyboardAppearance='default', keyboardType, right=null, secureTextEntry=false, type }) => {
+const Input = ({ onCheckValidity, onInputChange, inputIsValid, errors ,placeholder, autoCapitalize, autoComplete, autoCorrect=false, keyboardAppearance='default', keyboardType, right=null, secureTextEntry=false, type }) => {
     const [inputValue, setInputValue] = useState('');
     const [isTouched, setIsTouched] = useState(false);
     const [isValidatedOnBlur, setIsValidatedOnBlur] = useState(false);
-    const [isValid, setIsValid] = useState(true);
-    const [error, setError] = useState();
 
     const checkValidityHandler = () => {
         if(isTouched){
-            const validationResult = validation(type, inputValue);
-            setIsValid(validationResult.validity);
-            setError(validationResult.error);
+            onCheckValidity();
             setIsValidatedOnBlur(true);
         }
     }
 
     const changeValidityOnChangeHandler = () => {
         if(isTouched && isValidatedOnBlur){
-            const validationResult = validation(type, inputValue);
-            setIsValid(validationResult.validity);
-            setError(validationResult.error);
+            onCheckValidity();
         }
     }
 
@@ -36,19 +29,19 @@ const Input = ({ placeholder, autoCapitalize, autoComplete, autoCorrect=false, k
             autoComplete={autoComplete}
             keyboardAppearance={keyboardAppearance}
             keyboardType={keyboardType}
-            onChangeText={(text) => {setInputValue(text); changeValidityOnChangeHandler()}}
+            onChangeText={(text) => {setInputValue(text); onInputChange(text); changeValidityOnChangeHandler()}}
             onBlur={checkValidityHandler}
             onFocus={() => {setIsTouched(true)}}
             placeholder={placeholder}
             placeholderTextColor='black' 
             secureTextEntry={secureTextEntry}
-            style={[styles.input, !isValid && styles.error]} 
-            outlineColor={!isValid && styling.color.error100}
+            style={[styles.input, !inputIsValid && styles.error]} 
+            outlineColor={!inputIsValid && styling.color.error100}
             right={right}
             mode='outlined'
             value={inputValue}
         ></TextInput>
-        {!isValid && <Text style={styles.errorText}>{error}</Text>}
+        {!inputIsValid && <Text style={styles.errorText}>{errors}</Text>}
     </View>
   )
 }

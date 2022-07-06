@@ -11,6 +11,7 @@ export const styling = {
         error50: '#fcc4e4',
         error100: '#f51439',
         error500: '#9b095c',
+        gray100: '#bfbfbf',
         gray500: '#39324a',
         gray700: '#221c30',
 	    white50: '#CCC',
