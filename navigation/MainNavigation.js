@@ -5,6 +5,7 @@ import StoreNavigation from './StoreNavigation';
 import { ActivityIndicator } from 'react-native-paper';
 import { AuthContext } from '../services/authentication-context';
 import { Text, View } from 'react-native';
+import AdminNavigation from './AdminNavigation';
 
 const MainNavigation = () => {
 
@@ -55,14 +56,6 @@ const MainNavigation = () => {
         checkStorageHandler();
     }, [])
 
-    const AdminScreen = () => {
-        return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-                <Text>Admin Screen</Text>
-            </View>
-        )
-    }
-
     const LoadingView = () => {
         return (
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',}}>
@@ -79,7 +72,7 @@ const MainNavigation = () => {
     }
 
     if(!checkingStorage && admin){
-        return <AdminScreen></AdminScreen>
+        return <AdminNavigation></AdminNavigation>
     }
 
     return (
