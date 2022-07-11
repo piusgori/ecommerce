@@ -1,13 +1,20 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { styling } from '../../constants/styles';
+import { useNavigation } from '@react-navigation/native';
 
 const CategoryItem = ({ category }) => {
+    const navigation = useNavigation();
+
+    const goToCategoriesHandler = () => {
+        navigation.navigate('CategoryName', { category: category.title })
+    }
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={goToCategoriesHandler} style={styles.container}>
         <View style={styles.imageContainer}><Image style={styles.image} source={{uri: category.image}}></Image></View>
-        <Text style={styles.name}>{category.name}</Text>
-    </View>
+        <Text style={styles.name}>{category.title}</Text>
+    </TouchableOpacity>
   )
 }
 

@@ -7,6 +7,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import MainNavigation from './navigation/MainNavigation';
 import WelcomeScreen from './screens/WelcomeScreen';
 import { AuthContextProvider } from './services/authentication-context';
+import { ModalContextProvider } from './services/modal-context';
 
 const Loading = () => {
   return (
@@ -54,7 +55,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <AuthContextProvider>
-        {loading ? <Loading></Loading> : viewedOnBoarding ? <MainNavigation></MainNavigation> : <WelcomeScreen onViewed={changeViewsHandler}></WelcomeScreen>}
+        {loading ? <Loading></Loading> : viewedOnBoarding ? <ModalContextProvider><MainNavigation></MainNavigation></ModalContextProvider> : <WelcomeScreen onViewed={changeViewsHandler}></WelcomeScreen>}
       </AuthContextProvider>
       <StatusBar style="auto" />
     </View>

@@ -47,6 +47,11 @@ export const AdminProductsContextProvider = ({ children }) => {
         }
     }
 
+    const sortedProductsByCategory = (catName) => {
+        const sortedProducts = products.filter((prod) => prod.category === catName);
+        return sortedProducts;
+    }
+
     const getOrders = async () => {
         setIsLoading(true);
         try {
@@ -64,9 +69,9 @@ export const AdminProductsContextProvider = ({ children }) => {
         }
     }
 
-    const createCategory = async (title) => {
+    const createCategory = async (title, image) => {
         try {
-            const response = await fetch(`${url}shop/category`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${admin.token}` }, body: JSON.stringify({ title }) });
+            const response = await fetch(`${url}shop/category`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${admin.token}` }, body: JSON.stringify({ title, image }) });
             const responseData = await response.json();
             if(!response.ok && !responseData.content && response.status === 500){
                 throw new Error('An unexpected error has occurred');
@@ -103,8 +108,17 @@ export const AdminProductsContextProvider = ({ children }) => {
         }
     }
 
-    const createProduct = async () => {
-
+    const createProduct = async (title, price, category, image) => {
+        try {
+            const response =  await fetch(`${url}shop/`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${admin.token}` }, body: JSON.stringify({ title, price, category, image }) });
+            const responseData = await response.json();
+            if(!response.ok && response.status === 500 & !responseData.content){
+                throw new Error('An unexpected error has occurred');
+            }
+            return responseData;
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const delivery = async (orderId) => {
@@ -123,6 +137,6 @@ export const AdminProductsContextProvider = ({ children }) => {
         }
     }
 
-    const value = { products, categories, orders, isLoading, setIsLoading, getProducts, getCategories, getOrders, createCategory, deleteProduct, editProduct, delivery }
+    const value = { products, categories, orders, isLoading, setIsLoading, setCategories, setProducts, getProducts, getCategories, getOrders, createProduct, createCategory, deleteProduct, editProduct, delivery, sortedProductsByCategory }
     return <AdminProductsContext.Provider value={value}>{children}</AdminProductsContext.Provider>
 }

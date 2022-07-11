@@ -57,7 +57,7 @@ const RequestResetPasswordScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Reset Password</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
+        <Input label='Email Address' onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
       </View>
       <View style={styles.buttonContainer}>
         {!isLoading && <Button onPress={requestPasswordResetHandler} style={styles.button}>Get Reset Code</Button>}

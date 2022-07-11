@@ -122,10 +122,10 @@ const SignupScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkNameIsValid} onInputChange={nameChangingHandler} errors={nameErrors} inputIsValid={isNameValid} autoCapitalize='words' autoComplete='name' autoCorrect={false} keyboardType='default' placeholder='Name' type='name'></Input>
-        <Input onCheckValidity={checkPhoneNumberIsValid} onInputChange={phoneNumberChangingHandler} errors={phoneNumberErrors} inputIsValid={isPhoneNumberValid} autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='Phone Number' type='phone'></Input>
-        <Input onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
-        <Input onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
+        <Input label='Name' onCheckValidity={checkNameIsValid} onInputChange={nameChangingHandler} errors={nameErrors} inputIsValid={isNameValid} autoCapitalize='words' autoComplete='name' autoCorrect={false} keyboardType='default' placeholder='Name' type='name'></Input>
+        <Input label='Your Phone Number (Safaricom)' onCheckValidity={checkPhoneNumberIsValid} onInputChange={phoneNumberChangingHandler} errors={phoneNumberErrors} inputIsValid={isPhoneNumberValid} autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='Phone Number' type='phone'></Input>
+        <Input label='Your E_Mail Address' onCheckValidity={checkEmailIsValid} onInputChange={emailChangingHandler} errors={emailErrors} inputIsValid={isEmailValid} autoCapitalize='none' autoComplete='email' autoCorrect={false} keyboardType='email-address' placeholder='E-Mail' type='email'></Input>
+        <Input label='Password' onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
         <Text onPress={() => { navigation.navigate('Login')}} style={styles.text}>Already have an account?</Text>
       </View>
       <View style={styles.buttonContainer}>

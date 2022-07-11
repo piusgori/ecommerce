@@ -9,6 +9,11 @@ import AdminHomeScreen from '../screens/AdminStore/AdminHomeScreen';
 import AdminCategoriesScreen from '../screens/AdminStore/AdminCategoriesScreen';
 import OrdersScreen from '../screens/AdminStore/OrdersScreen';
 import EditScreen from '../screens/AdminStore/EditScreen';
+import AddCategoriesScreen from '../screens/AdminStore/AddCategoryScreen';
+import CreateProductScreen from '../screens/AdminStore/CreateProductScreen';
+import CategoryNameItemsScreen from '../screens/AdminStore/CategoryNameItemsScreen';
+import AdminSettingScreen from '../screens/AdminStore/AdminSettingScreen';
+import TopIcons from '../components/home-admin/TopIcons';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -50,6 +55,14 @@ const AdminNavigation = () => {
             tabBarBadge: 5,
           }}
         ></Tab.Screen>
+        <Tab.Screen
+          name='AdminProfile'
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color, size }) => <Icon icon='person' size={size} color={color}></Icon>
+          }}
+          component={AdminSettingScreen}
+        ></Tab.Screen>
       </Tab.Navigator>
     )
   }
@@ -60,7 +73,7 @@ const AdminNavigation = () => {
         <Stack.Navigator 
           screenOptions={({ navigation }) => ({
             contentStyle: {backgroundColor: 'white'}, 
-            headerRight: () => <Icon onPress={() => {navigation.navigate('Edit')}} icon='add' size={24} color={styling.color.primary400}></Icon>
+            headerRight: () => <TopIcons navigation={navigation}></TopIcons>
           })}
         >
           <Stack.Screen 
@@ -78,6 +91,28 @@ const AdminNavigation = () => {
             component={EditScreen}
           >
           </Stack.Screen>
+          <Stack.Screen
+            name='CreateProduct'
+            options={{ 
+              headerTitle: 'Create New Product',
+              headerTitleStyle: {color: styling.color.primary500, fontFamily: styling.fontFamily.goboldBold},
+              headerRight: null
+          }}
+            component={CreateProductScreen}
+          ></Stack.Screen>
+          <Stack.Screen
+            name='CreateCategory'
+            options={{ headerShown: false }}
+            component={AddCategoriesScreen}
+          ></Stack.Screen>
+          <Stack.Screen
+            name='CategoryNameItems'
+            options={{
+              headerTitleStyle: {color: styling.color.primary500, fontFamily: styling.fontFamily.goboldBold},
+              headerRight: null
+            }}
+            component={CategoryNameItemsScreen}
+          ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>
     </View>

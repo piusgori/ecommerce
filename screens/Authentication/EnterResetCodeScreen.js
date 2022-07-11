@@ -57,7 +57,7 @@ const EnterResetCodeScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Enter Code</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkCodeIsValid} onInputChange={codeChangingHandler} errors={codeErrors} inputIsValid={isCodeValid} autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='6 Digit Code' type='phone'></Input>
+        <Input label='Reset Code' onCheckValidity={checkCodeIsValid} onInputChange={codeChangingHandler} errors={codeErrors} inputIsValid={isCodeValid} autoCapitalize='none' autoComplete='off' autoCorrect={false} keyboardType='phone-pad' placeholder='6 Digit Code' type='phone'></Input>
       </View>
       <View style={styles.buttonContainer}>
         {!isLoading && <Button onPress={codeValidationHandler} style={styles.button}>Change My Password</Button>}

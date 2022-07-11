@@ -1,15 +1,19 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react';
+import React, { useContext } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { styling } from '../../constants/styles';
+import { AuthContext } from '../../services/authentication-context';
 
-const CartIcon = () => {
+const CartIcon = ({ onPress }) => {
+  const { user } = useContext(AuthContext);
+  const totalItems = user.cart.reduce((tq, each) => tq += each.quantity, 0)
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <Ionicons name='cart-outline' size={40}></Ionicons>
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>5</Text>
-      </View>
+      {user.cart.length > 0 && <View style={styles.badge}>
+        <Text style={styles.badgeText}>{totalItems}</Text>
+      </View>}
     </TouchableOpacity>
   )
 }

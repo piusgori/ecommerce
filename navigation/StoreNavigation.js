@@ -9,6 +9,8 @@ import Icon from '../components/ui/Icon';
 import ProfileScreen from '../screens/Store/ProfileScreen';
 import CategoriesScreen from '../screens/Store/CategoriesScreen';
 import CartIcon from '../components/ui/CartIcon';
+import CategoryNameScreen from '../screens/Store/CategoryNameScreen';
+import Cart from '../screens/Store/Cart';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -57,15 +59,32 @@ const StoreNavigation = () => {
     <View style={{ height, width }}>
       <NavigationContainer>
         <Stack.Navigator 
-          screenOptions={{
+          screenOptions={({ navigation }) => ({
             contentStyle: {backgroundColor: 'white'}, 
-            headerRight: () => <CartIcon></CartIcon>
-          }}
+            headerRight: () => <CartIcon onPress={() => {navigation.navigate('Cart')}}></CartIcon>
+          })}
         >
           <Stack.Screen 
             name='HomeScreen'
             options={{headerTitle: ''}} 
             component={TabNavigation}
+          ></Stack.Screen>
+          <Stack.Screen
+            name='CategoryName'
+            options={{
+              headerTitleStyle: {color: styling.color.primary500, fontFamily: styling.fontFamily.goboldBold},
+              headerRight: null
+            }}
+            component={CategoryNameScreen}
+          ></Stack.Screen>
+          <Stack.Screen
+            name='Cart'
+            options={{
+              headerTitleStyle: {color: styling.color.primary500, fontFamily: styling.fontFamily.goboldBold},
+              headerRight: null,
+              title: 'My Cart'
+            }}
+            component={Cart}
           ></Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { styling } from '../../constants/styles';
 
-const Input = ({ onCheckValidity, onInputChange, inputIsValid, errors ,placeholder, autoCapitalize, autoComplete, autoCorrect=false, keyboardAppearance='default', keyboardType, right=null, secureTextEntry=false, type }) => {
+const Input = ({ inputData, label, onCheckValidity, onInputChange, inputIsValid, errors ,placeholder, autoCapitalize, autoComplete, autoCorrect=false, keyboardAppearance='default', keyboardType, right=null, secureTextEntry=false, type }) => {
     const [inputValue, setInputValue] = useState('');
     const [isTouched, setIsTouched] = useState(false);
     const [isValidatedOnBlur, setIsValidatedOnBlur] = useState(false);
+
+    useLayoutEffect(() => {
+        if(inputData){
+            setInputValue(inputData);
+        }
+    }, []);
 
     const checkValidityHandler = () => {
         if(isTouched){
@@ -23,6 +29,7 @@ const Input = ({ onCheckValidity, onInputChange, inputIsValid, errors ,placehold
 
   return (
     <View style={styles.container}>
+        <Text style={styles.label}>{label}</Text>
         <TextInput 
             autoCapitalize={autoCapitalize}
             autoCorrect={autoCorrect}
@@ -63,5 +70,12 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         marginVertical: 12,
+    },
+    label: {
+        alignSelf: 'flex-start',
+        marginVertical: 6,
+        fontFamily: styling.fontFamily.gobold,
+        fontSize: styling.fontSize.regular,
+        color: styling.color.primary700
     }
 })

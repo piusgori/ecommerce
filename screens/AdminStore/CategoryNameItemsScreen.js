@@ -1,30 +1,29 @@
 import { View, Text, StyleSheet, useWindowDimensions, VirtualizedList } from 'react-native'
-import React, { useContext, useLayoutEffect } from 'react'
+import React, { useContext, useLayoutEffect, useState } from 'react'
 import { styling } from '../../constants/styles';
 import { AdminProductsContext } from '../../services/admin-products-context';
 import { ActivityIndicator } from 'react-native-paper';
 import HomeAdminProduct from '../../components/home-admin/HomeAdminProduct';
 
-const AdminHomeScreen = () => {
-  const { products, isLoading, getProducts, getCategories } = useContext(AdminProductsContext);
+const CategoryNameItemsScreen = ({ navigation, route }) => {
+  const { isLoading, sortedProductsByCategory } = useContext(AdminProductsContext);
   const { width } = useWindowDimensions();
+  const [categoryProducts, setCategoryProducts] = useState([]);
 
   useLayoutEffect(() => {
-    const gettingProductsHandler = async () => {
-      await getProducts();
-      await getCategories();
-    }
-    gettingProductsHandler();
+    navigation.setOptions({ title: route.params.category })
+    const catProds = sortedProductsByCategory(route.params.category);
+    setCategoryProducts(catProds);
   }, [])
 
   return (
     <View style={styles.container}>
       {isLoading && <View style={styles.loadingContainer}><ActivityIndicator size='large'></ActivityIndicator></View>}
       {!isLoading && <View style={styles.innerContainer}>
-        <Text style={styles.title}>All Products</Text>
-        {products.length === 0 && <Text style={styles.text}>No products added yet</Text>}
-        {products.length > 0 && <View style={[styles.list, { width: width - 24 }]}><VirtualizedList
-          data={products}
+        <Text style={styles.title}>{route.params.category}</Text>
+        {categoryProducts.length === 0 && <Text style={styles.text}>No products under this category yet</Text>}
+        {categoryProducts.length > 0 && <View style={[styles.list, { width: width - 24 }]}><VirtualizedList
+          data={categoryProducts}
           contentContainerStyle={{ paddingHorizontal: 8}}
           initialNumToRender={1}
           keyExtractor={(item) => item.id}
@@ -38,7 +37,7 @@ const AdminHomeScreen = () => {
   )
 }
 
-export default AdminHomeScreen;
+export default CategoryNameItemsScreen;
 
 const styles = StyleSheet.create({
     container: {

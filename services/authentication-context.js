@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
 
@@ -101,7 +102,27 @@ export const AuthContextProvider = ({ children }) => {
         }  
     }
 
-    const value = { admin, setAdmin, login, signup, user, setUser, isLoading, setIsLoading, requestPasswordReset, setPasswordResetToken, setPasswordResetEmail, enterReceivedCodeHandler, setNewPasswordHandler, adminLogin }
+    const logout = async () => {
+        setUser(null);
+        try {
+            await AsyncStorage.removeItem('user');
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    const adminLogout = async () => {
+        setAdmin(null);
+        try {
+            await AsyncStorage.removeItem('admin');
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
+    const value = { admin, setAdmin, login, signup, user, setUser, isLoading, setIsLoading, requestPasswordReset, setPasswordResetToken, setPasswordResetEmail, enterReceivedCodeHandler, setNewPasswordHandler, adminLogin, logout, adminLogout }
 
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

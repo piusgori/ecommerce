@@ -60,7 +60,7 @@ const CreateNewPasswordScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Create New Password</Text>
       <View style={styles.inputContainer}>
-        <Input onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
+        <Input label='New Password' onCheckValidity={checkPasswordlIsValid} onInputChange={passwordChangingHandler} errors={passwordErrors} inputIsValid={isPasswordValid} autoCapitalize='none' autoComplete='password' autoCorrect={false} secureTextEntry={isVisible ? false : true} placeholder='Password' right={<TextInput.Icon onPress={changeVisibilityHandler} name={isVisible ? 'eye' : 'eye-off'}></TextInput.Icon>} type='password'></Input>
       </View>
       <View style={styles.buttonContainer}>
         {!isLoading && <Button onPress={newPasswordHandler} style={styles.button}>Set New Password</Button>}
